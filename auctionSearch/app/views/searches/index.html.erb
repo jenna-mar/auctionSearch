@@ -1,0 +1,78 @@
+<%= stylesheet_link_tag "listingcss.css" %>
+
+<h1>Search Terms</h1>
+
+<%#= @searches.maximum('updated_at') %>
+<p>New listings since <%= Time.zone.now.beginning_of_day %></p>
+
+<%= link_to 'New Search Term', new_search_path %>
+ <br>
+  <% @searches.each do |search| %>
+    
+    <div class="searches">
+      <b class="searchtitle"><%= link_to search.name, search_path(search) %></b>
+      <div class="subtitle">
+        <% unless search.category.empty? %>
+        in category <b><%= search.category %></b>
+        <% end %>
+        <% unless search.site.empty? %>
+        on <b><%= search.site %></b>
+        <% end %>
+      </div>
+
+      <span class="frontset">
+      <%= link_to 'Edit', edit_search_path(search) %>
+      <%= link_to 'Delete', search_path(search),
+              method: :delete,
+              data: {confirm: 'Are you sure?'} %>
+      </span>
+      
+        <% if search.site.empty? %>
+          <div class="listingbox">
+          <p>Yahoo Listings</p>
+          <% if search.listings.where('url LIKE ?', '%yahoo%').where("created_at >= ?", Time.zone.now.beginning_of_day).empty? %>
+            <p class="subtitle">no new results.</p>
+          <% else %>
+            <% search.listings.where('url LIKE ?', '%yahoo%').where("created_at >= ?", Time.zone.now.beginning_of_day).each do |listing| %>
+              <div class="listing">
+                    <%=image_tag(listing.img, alt: listing.title) %><br>
+                    <%= link_to listing.title, listing.url %>
+                    <span class="settings">
+                      <%= link_to 'Delete', [listing.search, listing],
+                                 method: :delete,
+                                 data: { confirm: 'Listing will be deleted.' } %>
+                    </span>
+              </div>
+            <% end %>
+          <% end %>
+          </div>
+
+          <div class="listingbox">
+          <p>Mbok Listings</p>
+          <% if search.listings.where('url LIKE ?', '%mbok%').where("created_at >= ?", Time.zone.now.beginning_of_day).empty? %>
+            <p class="subtitle">no new results.</p>
+          <% end %>
+          </div>
+        
+        <% else %>
+          <div class="listingbox">
+          <% if search.listings.where("created_at >= ?", Time.zone.now.beginning_of_day).empty? %>
+            <p class="subtitle">no new results.</p>
+          <% else %>
+            <% search.listings.where("created_at >= ?", Time.zone.now.beginning_of_day).each do |listing| %>
+                <div class="listing">
+                  <%=image_tag(listing.img, alt: listing.title) %><br>
+                  <%= link_to listing.title, listing.url %>
+                  <span class="settings">
+                    <%= link_to 'Delete', [listing.search, listing],
+                               method: :delete,
+                               data: { confirm: 'Listing will be deleted.' } %>
+                  </span>
+                </div>
+            <% end %>
+          <% end %>
+          </div>
+        <% end %> 
+
+    </div>
+  <% end %>

@@ -1,0 +1,28 @@
+<%= stylesheet_link_tag "listingcss.css" %>
+
+<h2>Listings for <i><%= @search.name %></i>
+  <% unless @search.category.empty? %>
+  in category <i><%= @search.category %></i>
+  <% end %>
+  <% unless @search.site.empty? %>
+  on <%= @search.site %>
+  <% end %>
+</h2>
+<p>
+<%= link_to 'Edit', edit_search_path(@search) %> |
+<%= link_to 'Back', searches_path %>
+</p>
+<% @search.listings.each do |listing| %>
+<div class="listing">
+	<%=image_tag(listing.img, alt: listing.title) %>
+		<br>
+    <%= link_to listing.title, listing.url %>
+		<br>
+		<span class="settings">
+    <%= link_to 'Delete', [listing.search, listing],
+               method: :delete,
+               data: { confirm: 'Listing will be deleted.' } %>
+    </span>
+</div>
+<% end %>
+

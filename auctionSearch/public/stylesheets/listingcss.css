@@ -1,0 +1,47 @@
+.listing {
+	max-width: 190px;
+	height: 250px;
+	border: solid;
+	float: left;
+	margin: 0.5em;
+	text-align: center;
+	font-size: 0.8em;
+	position: relative;
+}
+
+.settings{
+	text-align: right;
+	position: absolute;
+	bottom: 0;
+	right: 0;
+}
+
+.subtitle{
+	color: #797979;
+	font-size: 0.9em;
+}
+
+.searchtitle{
+	font-size: 1.5em;
+}
+
+.searches{
+	position: relative;
+	margin: 2em;
+}
+
+.frontset{
+	position: absolute;
+	left: 15%;
+}
+
+.listingbox{
+	margin: 1.2em 0;
+	overflow: auto;
+}
+
+img {
+	margin: 0.5em;
+	max-height: 128px;
+	max-width: 128px;
+}

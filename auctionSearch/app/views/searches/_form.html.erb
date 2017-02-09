@@ -1,0 +1,36 @@
+<%= form_for(@search) do |f| %>
+ 
+  <% if @search.errors.any? %>
+    <div id="error_explanation">
+      <h2>
+        <%= pluralize(@search.errors.count, "error") %> prohibited
+        this search term from being saved:
+      </h2>
+      <ul>
+        <% @search.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+ 
+  <p>
+    <%= f.label :name, 'Search Term' %><br>
+    <%= f.text_field :name %>
+  </p>
+
+  <p>
+    <%= f.label :category %><br>
+    <%= f.select :category, ['Angelic Pretty'], :include_blank => true %>
+  </p>
+
+  <p>
+    <%= f.label :site %><br>
+    <%= f.select :site, ['Yahoo! Auctions', 'Mbok'], :include_blank => true %>
+  </p>
+ 
+  <p>
+    <%= f.submit %>
+  </p>
+  
+<% end %>
