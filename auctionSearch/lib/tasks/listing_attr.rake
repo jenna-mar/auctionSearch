@@ -5,7 +5,7 @@ task :fetch_listings => :environment do
 	
 	# declare url constants
 	YAUC = "http://auctions.search.yahoo.co.jp/search?"
-	MBOK = "http://www.mbok.jp/_l?"
+	MBOK = "https://www.mbok.jp/_l?"
 	CATAPY = "&auccat=2084229923"
 	CATAPM = "&c=100000509"
 	CATBM = "&c=100000731"
@@ -22,6 +22,7 @@ task :fetch_listings => :environment do
 			findListingsMbok(search)
 		end
 	end
+	#doc = Nokogiri::HTML(open(MBOK))
 end
 
 def findListingsYahoo(search)
@@ -101,7 +102,13 @@ def findListingsMbok(search)
 	elsif search.name == "レジメン"
 		searchterm = "%83%8C%83W%83%81%83%93"
 	elsif search.name == "ドーナツ"
-		searchterm = "%83h%81%5B%83i%83c"			
+		searchterm = "%83h%81%5B%83i%83c"
+	elsif search.name == "ユニコーン"
+		searchterm = "%83%86%83j%83R%81%5B%83%93"
+	elsif search.name == "ベリー"
+		searchterm = "%83x%83%8A%81%5B"
+	elsif search.name == "チョコ"
+		searchterm = "%83%60%83%87%83R"									
 	elsif search.name == "まどろみの浪漫"
 		searchterm = "%82%DC%82%C7%82%EB%82%DD%82%CC%98Q%96%9F"
 	else 
