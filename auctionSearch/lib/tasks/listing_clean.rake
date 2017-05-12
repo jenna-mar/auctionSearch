@@ -7,22 +7,27 @@ task :clean_listings => :environment do
 		
 		search.listings.each do |listing|			
 			if listing.url.include?("yahoo")
+				#temporary fix code for deleting old url style/url doubles from y!auc's change 08/04/17
+				#if (listing.url =~ /page\d{1,2}/ )
+				#	puts "double found, deleting..."
+				#	listing.delete
+				#elsif
 				if Nokogiri::HTML(open(listing.url)).css("div.ProductInformation").empty?
 					puts "deleting finished listing [#{listing.title}] from yahoo."
 					listing.delete
 				end
+
 			elsif listing.url.include?("mbok")
 				newurl = listing.url
 				#legacy support for old mbok urls http->https
 				unless listing.url.include?("https")
 					newurl.insert(4,'s')
 					#temporary fix code for deleting url doubles from mbok's change from http->https
-					if search.listings.exists?(url: newurl)
-						puts "double found, deleting..."
-						listing.delete
-					end
+					#if search.listings.exists?(url: newurl)
+					#	puts "double found, deleting..."
+					#	listing.delete
+					#end
 				end
-				#puts newurl
 				if Nokogiri::HTML(open(newurl)).css("div.announceArea").empty?
 					puts "deleting finished listing [#{listing.title}] from mbok."
 					listing.delete

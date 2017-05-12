@@ -4,7 +4,7 @@ task :fetch_listings => :environment do
 	require 'open-uri'
 	
 	# declare url constants
-	YAUC = "http://auctions.search.yahoo.co.jp/search?"
+	YAUC = "https://auctions.yahoo.co.jp/search/search?"
 	MBOK = "https://www.mbok.jp/_l?"
 	CATAPY = "&auccat=2084229923"
 	CATAPM = "&c=100000509"
@@ -22,7 +22,6 @@ task :fetch_listings => :environment do
 			findListingsMbok(search)
 		end
 	end
-	#doc = Nokogiri::HTML(open(MBOK))
 end
 
 def findListingsYahoo(search)
