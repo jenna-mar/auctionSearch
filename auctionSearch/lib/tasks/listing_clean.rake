@@ -12,7 +12,20 @@ task :clean_listings => :environment do
 				#	puts "double found, deleting..."
 				#	listing.delete
 				#elsif
-				if Nokogiri::HTML(open(listing.url)).css("div.ProductInformation").empty?
+				begin
+				stream = open(listing.url)
+				rescue OpenURI::HTTPError => e
+					if e.message == "404 Not Found"
+						puts "Note: received a 404 error. Deleting listing [#{listing.title}] from yahoo..."
+						listing.delete
+					else 
+						puts "There was an error #{e} with listing #{listing.url}. Continuing..."
+						#if we choose to abort
+						#next
+					end
+				end
+
+				if Nokogiri::HTML(stream).css("div.ProductInformation").empty?
 					puts "deleting finished listing [#{listing.title}] from yahoo."
 					listing.delete
 				end
@@ -28,7 +41,17 @@ task :clean_listings => :environment do
 					#	listing.delete
 					#end
 				end
-				if Nokogiri::HTML(open(newurl)).css("div.announceArea").empty?
+				begin
+				stream = open(newurl)
+				rescue OpenURI::HTTPError => e
+					if e.message == "404 Not Found"
+						puts "Note: received a 404 error. Deleting listing [#{listing.title}] from mbok..."
+						listing.delete
+					else 
+						puts "There was an error #{e} with listing #{listing.url}. Continuing..."
+					end
+				end
+				unless Nokogiri::HTML(stream).css("div.announceArea").empty?
 					puts "deleting finished listing [#{listing.title}] from mbok."
 					listing.delete
 				end
